@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 
 
-let totalDisk = 10;
+const totalDisk = 10;
 let usedDisk = 0;
 
 
-function validation(images,sum){
+const validation = (images,sum) =>{
 
     if(sum +usedDisk > totalDisk)
     {
@@ -23,7 +23,8 @@ function validation(images,sum){
     }
     for(let file of images)
     {
-        if(!(file.name.toLowerCase().endsWith('.jpg') || file.name.toLowerCase().endsWith('.jpeg')  || file.name.toLowerCase().endsWith('.png')  || file.name.toLowerCase().endsWith('.gif') ))
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if(!(allowedExtensions.exec(file.name)))
         {
            alert("File format isn’t supported");
            return false;
@@ -36,6 +37,16 @@ function validation(images,sum){
 
 
 }
+
+const update = () => {
+    fileSize.innerText = usedDisk.toFixed(2);
+    goLeft.innerText =( totalDisk - usedDisk).toFixed(2);
+    bar.style.width = `${usedDisk.toFixed(2)*10}%`;
+
+    
+}
+
+
 async function UploadFile() {
     let images = [];
     let files = await showOpenFilePicker(
@@ -61,13 +72,4 @@ async function UploadFile() {
     update();
 
 }
-
-function update(){
-    fileSize.innerText = usedDisk.toFixed(2);
-    goLeft.innerText =( totalDisk - usedDisk).toFixed(2);
-    bar.style.width = `${usedDisk.toFixed(2)*10}%`;
-
-    
-}
-
 
